@@ -5,7 +5,7 @@ import whiteArrow from "/src/assets/white_arrow_icon.svg";
 const MainBanner = () => {
   return (
     <div>
-      <CCarousel controls transition="crossfade">
+       <CCarousel controls transition="crossfade">
         {/* Slide 1 */}
         <CCarouselItem>
           {/* Desktop Image */}
@@ -63,7 +63,7 @@ const MainBanner = () => {
             alt="Mobile Slide 4" 
           />
         </CCarouselItem>
-      </CCarousel>
+      </CCarousel> 
 
       <div className="text-center py-10 bg-gradient-to-r from-green-50 via-white to-green-50">
   <h2 className="text-2xl md:text-3xl font-semibold text-green-800 tracking-wide">

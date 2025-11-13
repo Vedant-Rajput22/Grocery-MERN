@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { Link, useParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard.jsx'
-import { assets } from '/src/assets/assets'
+import { assets } from '../assets/assets'
 
 const ProductDetails = () => {
   let ctx = {}
@@ -26,6 +26,8 @@ const ProductDetails = () => {
 
   const [relatedProducts, setRelatedProducts] = useState([])
   const [thumbnail, setThumbnail] = useState(null)
+  const [footprint, setFootprint] = useState(null)
+  const { axios } = useAppContext()
 
   useEffect(() => {
     if (product && Array.isArray(products) && products.length > 0) {
@@ -39,6 +41,17 @@ const ProductDetails = () => {
   useEffect(() => {
     setThumbnail(imagesArray[0] ?? assets.upload_area)
   }, [imagesArray])
+
+  useEffect(() => {
+    const fetchFootprint = async () => {
+      try {
+        if (!product?._id) return
+        const { data } = await axios.get(`/api/product/${product._id}/footprint`)
+        if (data?.success) setFootprint(data.kgCO2e)
+      } catch {}
+    }
+    fetchFootprint()
+  }, [product?._id])
 
   if (!product) {
     return (
@@ -155,6 +168,21 @@ const ProductDetails = () => {
               ? descriptionList.map((desc, index) => <li key={index}>{desc}</li>)
               : <li>No description provided.</li>}
           </ul>
+
+          {Array.isArray(product?.tags) && product.tags.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {product.tags.map((t, i) => (
+                <span key={i} className="px-3 py-1 rounded-full bg-green-600/10 text-green-700 border border-green-600/30 text-xs">{t}</span>
+              ))}
+            </div>
+          )}
+
+          {footprint != null && (
+            <div className="mt-6 text-gray-700">
+              <p className="text-sm">Estimated CO₂ footprint per unit</p>
+              <p className="text-xl font-semibold text-green-700">{footprint} kg CO₂e</p>
+            </div>
+          )}
 
           <div className="flex items-center mt-10 gap-4 text-base">
             <button

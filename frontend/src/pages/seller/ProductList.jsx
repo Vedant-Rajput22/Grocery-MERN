@@ -31,6 +31,21 @@ function ProductList() {
     }
   }
 
+  const deleteProduct = async (id) => {
+    try {
+      if (!axios) return toast.error('Backend not available yet')
+      const { data } = await axios.delete(`/api/product/${id}`)
+      if (data?.success) {
+        toast.success('Deleted')
+        typeof fetchProducts === 'function' && fetchProducts()
+      } else {
+        toast.error(data?.message || 'Failed to delete')
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message || 'Failed to delete')
+    }
+  }
+
   const hasProducts = Array.isArray(products) && products.length > 0
 
   return (
@@ -49,6 +64,7 @@ function ProductList() {
                 <th className="px-4 py-3 font-semibold truncate">Category</th>
                 <th className="px-4 py-3 font-semibold truncate hidden md:block">Selling Price</th>
                 <th className="px-4 py-3 font-semibold truncate">In Stock</th>
+                <th className="px-4 py-3 font-semibold truncate">Actions</th>
               </tr>
             </thead>
 
@@ -89,6 +105,14 @@ function ProductList() {
                           <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-green-600 transition-colors duration-200"></div>
                           <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
                         </label>
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          className="px-3 py-1.5 rounded bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 text-sm"
+                          onClick={() => deleteProduct(product?._id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   )

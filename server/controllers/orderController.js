@@ -8,7 +8,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 // Place Order COD : /api/order/cod
 export const placeOrderCOD = async (req, res) => {
     try {
-        const { userId, address, items } = req.body;
+        const userId = req.userId;
+        const { address, items } = req.body; // address = addressId
         if (!address || items.length === 0) {
             return res.json({ success: false, message: "Invalid data" });
         }
@@ -25,7 +26,7 @@ export const placeOrderCOD = async (req, res) => {
             userId,
             items,
             amount,
-            address,
+            address, // addressId
             paymentType: "COD",
             isPaid: false
         });
@@ -66,7 +67,7 @@ export const placeOrderStripe = async (req, res) => {
             userId,
             items,
             amount,
-            address,
+            address, // addressId
             paymentType: "Online",
             isPaid: false
         });

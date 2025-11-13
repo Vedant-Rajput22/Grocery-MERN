@@ -11,39 +11,43 @@ import cartRouter from './routes/cartRoute.js';
 import addressRouter from './routes/addressRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import { stripeWebhooks } from './controllers/orderController.js';
+import seedProductsIfEmpty from './utils/seed.js';
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 await connectDB();
 await connectCloudinary();
+// Seed initial products once if collection is empty
+await seedProductsIfEmpty();
 
 // Allow multiple origins
 const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://greencart-sand.vercel.app'];
 
-app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhooks);
+// Stripe webhook must receive raw body
+app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks);
 
-// Middleware Configuration
+// Basic request logging
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
     next();
 });
-app.use(express.json()); 
+
+// Cookie parser
 app.use(cookieParser());
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.header('Access-Control-Allow-Origin', origin); // dynamically set origin
-    }
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    // Handle CORS preflight requests
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(204);
-    }
-    next();
-});
+
+// CORS
+app.use(cors({
+    origin: (origin, cb) => {
+        // Allow non-browser clients or same-origin
+        if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+        return cb(null, false);
+    },
+    credentials: true,
+}));
+
+// JSON body parser (after webhook)
+app.use(express.json());
 
 
 app.get('/', (req, res) => res.send('API is working!'));

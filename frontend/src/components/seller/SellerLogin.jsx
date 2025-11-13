@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAppContext } from '/src/context/AppContext.jsx'
+import { useAppContext } from '../../context/AppContext.jsx'
 import toast from 'react-hot-toast';
 
 function SellerLogin() {

@@ -1,8 +1,9 @@
 import React from 'react'
 import { useAppContext } from '../context/AppContext';
+import { toast } from 'react-hot-toast';
 
 const Login = () => {
-  const { setShowUserLogin, setUser } = useAppContext();
+  const { setShowUserLogin, setUser, axios, fetchUser } = useAppContext();
 
   const [state, setState] = React.useState("login");
   const [name, setName] = React.useState("");
@@ -11,11 +12,29 @@ const Login = () => {
 
   const onSubmitHandler = async (event)=>{
     event.preventDefault();
-    setUser({
-        email: "test@gmail.com",
-        name: "vedant"
-    })
-    setShowUserLogin(false)
+    try {
+      if (state === 'register') {
+        const { data } = await axios.post('/api/user/register', { name, email, password });
+        if (data.success) {
+          toast.success('Account created');
+          await fetchUser();
+          setShowUserLogin(false);
+        } else {
+          toast.error(data.message || 'Registration failed');
+        }
+      } else {
+        const { data } = await axios.post('/api/user/login', { email, password });
+        if (data.success) {
+          toast.success('Logged in');
+          await fetchUser();
+          setShowUserLogin(false);
+        } else {
+          toast.error(data.message || 'Login failed');
+        }
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+    }
   }
   return (
     <div 

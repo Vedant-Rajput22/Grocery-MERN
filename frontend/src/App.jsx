@@ -13,6 +13,16 @@ import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import AddAddress from './pages/AddAddress'
 import MyOrders from './pages/MyOrders'
+import Sustainability from './pages/Sustainability'
+import About from './pages/About'
+import BestSellers from './pages/BestSellers'
+import Offers from './pages/Offers'
+import FAQs from './pages/FAQs'
+import DeliveryInfo from './pages/DeliveryInfo'
+import Returns from './pages/Returns'
+import PaymentMethods from './pages/PaymentMethods'
+import TrackOrder from './pages/TrackOrder'
+import Contact from './pages/Contact'
 
 import SellerLogin from './components/seller/SellerLogin'
 import SellerLayout from './pages/seller/SellerLayout'
@@ -40,6 +50,16 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/add-address" element={<AddAddress />} />
           <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/sustainability" element={<Sustainability />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/best-sellers" element={<BestSellers />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/faqs" element={<FAQs />} />
+          <Route path="/help/delivery" element={<DeliveryInfo />} />
+          <Route path="/help/returns" element={<Returns />} />
+          <Route path="/help/payments" element={<PaymentMethods />} />
+          <Route path="/help/track" element={<TrackOrder />} />
+          <Route path="/contact" element={<Contact />} />
 
           {}
           <Route path="/seller" element={isSeller ? <SellerLayout /> : <SellerLogin />}>

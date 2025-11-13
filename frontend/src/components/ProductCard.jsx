@@ -1,5 +1,5 @@
 import React from "react";
-import { assets } from "/src/assets/assets";
+import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 
 const ProductCard = ({ product }) => {
@@ -66,11 +66,19 @@ const ProductCard = ({ product }) => {
       </div>
 
       <div className="text-gray-500/60 text-sm">
-        <p>{product?.category ?? "—"}</p>
+        <p>{product?.category ?? 'Misc'}</p>
 
         <p className="text-gray-700 font-medium text-lg truncate w-full">
           {product?.name ?? "Untitled"}
         </p>
+
+        {Array.isArray(product?.tags) && product.tags.length > 0 && (
+          <div className="mt-1 flex flex-wrap gap-1">
+            {product.tags.slice(0,3).map((t, i) => (
+              <span key={i} className="px-2 py-0.5 text-[11px] rounded-full bg-green-600/10 text-green-700 border border-green-600/30">{t}</span>
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center gap-0.5" aria-label="Product rating">
           {Array(5).fill("").map((_, i) => (

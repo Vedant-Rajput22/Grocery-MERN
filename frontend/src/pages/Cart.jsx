@@ -16,6 +16,7 @@ const Cart = () => {
     getCartAmount,
     axios,       
     user,
+    setShowUserLogin,
   } = useAppContext();
 
   const http = axios ?? axiosLib;
@@ -28,6 +29,10 @@ const Cart = () => {
 
   const placeOrder = async () => {
     try {
+      if (!user) {
+        setShowUserLogin(true);
+        return toast.error('Please login to place an order');
+      }
       if (!selectedAddress) {
         return toast.error("Please select an address");
       }
@@ -136,7 +141,7 @@ const Cart = () => {
               >
                 <img
                   className="max-w-full h-full object-cover"
-                  src={product?.image?.[0] || ""}
+                  src={product?.images?.[0] || product?.image?.[0] || (typeof product?.image === 'string' ? product.image : '')}
                   alt={product?.name || "product"}
                 />
               </button>

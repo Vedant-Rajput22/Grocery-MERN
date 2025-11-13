@@ -3,21 +3,29 @@ import { NavLink } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import { useAppContext } from '../context/AppContext'
 import { ShoppingCart } from "lucide-react";
+import { assets } from '../assets/assets.js';
+import toast from 'react-hot-toast';
 
 
 const Navbar = () => {
   const [open, setOpen] = React.useState(false)
   const [profileDropdown, setProfileDropdown] = React.useState(false)
-  const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery , getCartCount } = useAppContext();
+  const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery , getCartCount, axios } = useAppContext();
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      const { data } = await axios.get('/api/user/logout');
+      if (data.success) {
+        toast.success('Logged out');
+      }
+    } catch {}
     setUser(null);
     navigate('/');
     setProfileDropdown(false);
   }
 
   useEffect(()=>{
-    if(searchQuery.lenth > 0){
+    if((searchQuery?.length || 0) > 0){
       navigate("/products")
     }
   },[searchQuery])
@@ -48,8 +56,12 @@ const Navbar = () => {
           All Products
         </NavLink>
 
-        <NavLink to="/contact" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
-          Contacts
+        <NavLink to="/about" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
+          About
+        </NavLink>
+
+        <NavLink to="/sustainability" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
+          Sustainability
         </NavLink>
 
         {/* Desktop search box */}
@@ -83,7 +95,7 @@ const Navbar = () => {
         ) : (
           <div className="relative">
             <img
-              src="src/assets/profile_icon.png"
+              src={assets.profile_icon}
               className="w-10 cursor-pointer"
               alt="profile"
               onClick={() => setProfileDropdown(!profileDropdown)}
@@ -91,7 +103,7 @@ const Navbar = () => {
             {profileDropdown && (
               <ul className="absolute top-12 right-0 bg-white shadow-md border border-gray-200 rounded-md text-sm text-gray-700 whitespace-nowrap z-50">
                 <li
-                  onClick={() => { navigate("my-orders"); setProfileDropdown(false); }}
+                  onClick={() => { navigate("/my-orders"); setProfileDropdown(false); }}
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                 >
                   My Orders
@@ -135,13 +147,16 @@ const Navbar = () => {
           <NavLink to="/products" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
             All Products
           </NavLink>
+          <NavLink to="/about" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
+            About
+          </NavLink>
           {user && (
-            <NavLink to="/products" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
+            <NavLink to="/my-orders" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
               My Orders
             </NavLink>
           )}
-          <NavLink to="/contact" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
-            Contact
+          <NavLink to="/sustainability" onClick={() => setOpen(false)} className={linkCls} style={{ textDecoration: 'none' }}>
+            Sustainability
           </NavLink>
 
           {!user ? (

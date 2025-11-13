@@ -34,7 +34,7 @@ function AddAddress() {
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.post('/api/address/add', { address, userId: user._id });
+            const { data } = await axios.post('/api/address/add', { address });
             if(data.success){
                 toast.success(data.message);
                 navigate('/cart');
@@ -96,7 +96,7 @@ function AddAddress() {
                 </button>
             </form>
         </div>
-        <img className='md:mr-16 mb-12 md:mt-0' src={assets.add_address_iamge} alt='Add Address' />
+        <img className='md:mr-16 mb-12 md:mt-0' src={assets.add_address_image} alt='Add Address' />
       </div>
     </div>
   )

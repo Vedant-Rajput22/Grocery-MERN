@@ -24,7 +24,7 @@ import main_banner_bg from "./main_banner_bg.png";
 import main_banner_bg_sm from "./main_banner_bg_sm.png";
 import bottom_banner_image from "./bottom_banner_image.png";
 import bottom_banner_image_sm from "./bottom_banner_image_sm.png";
-import add_address_iamge from "./add_address_image.svg";
+import add_address_image from "./add_address_image.svg";
 import organic_vegitable_image from "./organic_vegitable_image.png";
 import fresh_fruits_image from "./fresh_fruits_image.png";
 import bottles_image from "./bottles_image.png";
@@ -96,7 +96,7 @@ export const assets = {
   main_banner_bg_sm,
   bottom_banner_image,
   bottom_banner_image_sm,
-  add_address_iamge,
+  add_address_image,
   box_icon,
 };
 
@@ -149,30 +149,30 @@ export const footerLinks = [
   {
     title: "Quick Links",
     links: [
-      { text: "Home", url: "#" },
-      { text: "Best Sellers", url: "#" },
-      { text: "Offers & Deals", url: "#" },
-      { text: "Contact Us", url: "#" },
-      { text: "FAQs", url: "#" },
+      { text: "Home", url: "/" },
+      { text: "Best Sellers", url: "/best-sellers" },
+      { text: "Offers & Deals", url: "/offers" },
+      { text: "Contact Us", url: "/contact" },
+      { text: "FAQs", url: "/faqs" },
     ],
   },
   {
     title: "Need help?",
     links: [
-      { text: "Delivery Information", url: "#" },
-      { text: "Return & Refund Policy", url: "#" },
-      { text: "Payment Methods", url: "#" },
-      { text: "Track your Order", url: "#" },
-      { text: "Contact Us", url: "#" },
+      { text: "Delivery Information", url: "/help/delivery" },
+      { text: "Return & Refund Policy", url: "/help/returns" },
+      { text: "Payment Methods", url: "/help/payments" },
+      { text: "Track your Order", url: "/help/track" },
+      { text: "Contact Us", url: "/contact" },
     ],
   },
   {
     title: "Follow Us",
     links: [
-      { text: "Instagram", url: "#" },
-      { text: "Twitter", url: "#" },
-      { text: "Facebook", url: "#" },
-      { text: "YouTube", url: "#" },
+      { text: "Instagram", url: "https://instagram.com", external: true },
+      { text: "Twitter", url: "https://twitter.com", external: true },
+      { text: "Facebook", url: "https://facebook.com", external: true },
+      { text: "YouTube", url: "https://youtube.com", external: true },
     ],
   },
 ];
